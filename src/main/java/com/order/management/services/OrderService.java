@@ -15,6 +15,9 @@ public class OrderService {
   @Resource
   private CustomerService customerService;
 
+  @Resource
+  private EmailNotificationService emailNotificationService;
+
   public Order createOrder(Long customerId, double amount) {
     Customer customer = customerService.findCustomerById(customerId);
     double discount = calculateDiscount(customer, amount);
@@ -27,6 +30,12 @@ public class OrderService {
 
     customer.setOrdersCount(customer.getOrdersCount()+1);
     customerService.promoteCustomer(customer);
+
+    //Check the promotion condition and sends email, or we can say that it's an optional approach for sending email based on the orders count
+//    if (customer.getOrdersCount() == 9 || customer.getOrdersCount() == 19) {
+//      emailNotificationService.sendMail(customer);
+//    }
+
     return saveOrder;
   }
 

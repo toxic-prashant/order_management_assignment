@@ -13,7 +13,7 @@ public class EmailNotificationService {
   @Resource
   private CustomerRepository customerRepository;
 
-  @Scheduled(cron = "0 0 12 * * ?")
+  @Scheduled(cron = "0 * * * * ?")
   public void sendPromotionalEmails() {
     List<Customer> customers = customerRepository.findAll();
     for (Customer customer : customers) {
@@ -23,7 +23,7 @@ public class EmailNotificationService {
     }
   }
 
-  private void sendMail(Customer customer) {
-    System.out.println("Sent mail to customer: "+customer.getName());
+  public void sendMail(Customer customer) {
+    System.out.println("Sent mail to customer: "+customer.getName() + ". You have placed " + customer.getOrdersCount() + " orders with us. Buy one more and you will be promoted to the next level!");
   }
 }
